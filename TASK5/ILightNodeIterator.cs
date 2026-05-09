@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace TASK5
 {
-    internal class ILightNodeIterator
-    {
-    }
+    interface ILightNodeIterator : IEnumerator<LightNode> { }
+
 }
