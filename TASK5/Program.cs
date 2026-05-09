@@ -76,6 +76,26 @@ namespace TASK5
 
             Console.WriteLine("-- Видаляємо дочірній елемент --");
             div.Remove(span);
+            Console.WriteLine("\n\n=== Iterator — обхід дерева ===");
+
+            var html = new LightElementNode("html");
+            var body = new LightElementNode("body");
+            var h1 = new LightElementNode("h1").AddText("Заголовок");
+            var ul = new LightElementNode("ul");
+            ul.Add(new LightElementNode("li").AddText("Пункт 1"));
+            ul.Add(new LightElementNode("li").AddText("Пункт 2"));
+            body.Add(h1).Add(ul);
+            html.Add(body);
+
+            Console.Write("\nDFS: ");
+            foreach (var node in new LightNodeCollection(html, depthFirst: true))
+                if (node is LightElementNode e) Console.Write($"<{e.TagName}> ");
+
+            Console.Write("\nBFS: ");
+            foreach (var node in new LightNodeCollection(html, depthFirst: false))
+                if (node is LightElementNode e) Console.Write($"<{e.TagName}> ");
+
+            Console.WriteLine();
         }
     }
 }
