@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using TASK5.Command;
+using TASK5.State;
 
 namespace TASK5
 {
@@ -119,6 +120,19 @@ namespace TASK5
 
             history.Undo();
             Console.WriteLine($"Після Undo CSS: {string.Join(", ", list.CssClasses)}");
+            Console.WriteLine("\n\n=== State — стани елемента ===");
+
+            var btn = new LightElementNode("button", DisplayType.Inline);
+            Console.WriteLine(btn.GetStateInfo());
+
+            btn.SetState(new HoveredState());
+            Console.WriteLine(btn.GetStateInfo());
+
+            btn.SetState(new DisabledState());
+            Console.WriteLine(btn.GetStateInfo());
+
+            btn.SetState(new IdleState());
+            Console.WriteLine(btn.GetStateInfo());
         }
     }
 }
