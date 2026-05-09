@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using TASK5.Command;
 using TASK5.State;
+using TASK5.Visitor;
 
 namespace TASK5
 {
@@ -133,6 +134,20 @@ namespace TASK5
 
             btn.SetState(new IdleState());
             Console.WriteLine(btn.GetStateInfo());
+            Console.WriteLine("\n\n=== Visitor — статистика, пошук, plain text ===");
+
+            var stats2 = new StatsVisitor();
+            stats2.Visit(table);
+            Console.WriteLine("Статистика таблиці:");
+            stats2.PrintReport();
+
+            var finder = new FindByTagVisitor("td");
+            finder.Visit(table);
+            Console.WriteLine($"\nЗнайдено <td>: {finder.Results.Count}");
+
+            var plain = new PlainTextVisitor();
+            plain.Visit(table);
+            Console.WriteLine($"\nТекстовий контент:\n  {plain.Result}");
         }
     }
 }
