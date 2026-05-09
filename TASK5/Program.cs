@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using TASK5.Command;
+using TASK5.Renderer;
 using TASK5.State;
 using TASK5.Visitor;
 
@@ -148,6 +149,26 @@ namespace TASK5
             var plain = new PlainTextVisitor();
             plain.Visit(table);
             Console.WriteLine($"\nТекстовий контент:\n  {plain.Result}");
+            Console.WriteLine("\n\n=== Bridge — рендеринг через міст ===");
+
+            var card = new LightElementNode("div", DisplayType.Block,
+                           ClosingType.WithClosingTag, new[] { "card" });
+            var cardTitle = new LightElementNode("h2", DisplayType.Block).AddText("Патерн Міст");
+            var cardText = new LightElementNode("p", DisplayType.Block).AddText("Розділяє абстракцію від реалізації");
+            card.Add(cardTitle).Add(cardText);
+
+            var rendered = new RenderedNode(card, new HtmlRenderer());
+
+            Console.WriteLine("── HTML рендер:");
+            Console.WriteLine(rendered.Render());
+
+            rendered.SetRenderer(new PlainTextRenderer());
+            Console.WriteLine("\n── Plain Text рендер:");
+            Console.WriteLine(rendered.Render());
+
+            rendered.SetRenderer(new JsonRenderer());
+            Console.WriteLine("\n── JSON рендер:");
+            Console.WriteLine(rendered.Render());
         }
     }
 }
