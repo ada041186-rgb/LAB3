@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TASK5.State;
 
 namespace TASK5
 {
@@ -14,6 +15,10 @@ namespace TASK5
 
         private readonly List<LightNode> _children = new();
         public int ChildCount => _children.Count;
+        private IElementState _state = new IdleState();
+
+        public void SetState(IElementState state) => _state = state;
+        public string GetStateInfo() => _state.Handle(this);
         public IReadOnlyList<LightNode> Children => _children.AsReadOnly();
 
         protected virtual void OnCreated() => Log($"[{TagName}] OnCreated");
