@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using TASK5.Command;
 
 namespace TASK5
 {
@@ -96,6 +97,28 @@ namespace TASK5
                 if (node is LightElementNode e) Console.Write($"<{e.TagName}> ");
 
             Console.WriteLine();
+            Console.WriteLine("\n\n=== Command — undo/redo ===");
+
+            var history = new CommandHistory();
+            var list = new LightElementNode("ul");
+            var newLi = new LightElementNode("li").AddText("Новий пункт");
+
+            Console.WriteLine($"Дітей до додавання: {list.ChildCount}");
+
+            history.Execute(new AddChildCommand(list, newLi));
+            Console.WriteLine($"Після Execute:      {list.ChildCount}");
+
+            history.Undo();
+            Console.WriteLine($"Після Undo:         {list.ChildCount}");
+
+            history.Redo();
+            Console.WriteLine($"Після Redo:         {list.ChildCount}");
+
+            history.Execute(new AddCssClassCommand(list, "highlighted"));
+            Console.WriteLine($"CSS класи: {string.Join(", ", list.CssClasses)}");
+
+            history.Undo();
+            Console.WriteLine($"Після Undo CSS: {string.Join(", ", list.CssClasses)}");
         }
     }
 }
